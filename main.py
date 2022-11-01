@@ -1,14 +1,12 @@
 import os
-
-import boto3
-import datetime as dt
-from tkinter import *
-from tkinter import messagebox
-from tkinter.filedialog import askopenfilename
-from tkinter.messagebox import showinfo
-
 import cv2
+import boto3
+from tkinter import *
+import datetime as dt
 from PIL import ImageTk, Image
+from tkinter import messagebox
+from tkinter.messagebox import showinfo
+from tkinter.filedialog import askopenfilename
 
 app = Tk()
 app.title('PT-1 Project')
@@ -17,8 +15,6 @@ app.iconbitmap('icon.ico')
 img = ImageTk.PhotoImage(Image.open('My project.jpg'))
 lbl_bgi = Label(app, image=img)
 lbl_bgi.pack()
-
-
 # ==========================================Functions===========================================================
 def dup():
     def my_func():
@@ -27,7 +23,6 @@ def dup():
 
     my_func()
 
-
 def dup_1():
     def my_func_1():
         global my_dir_1
@@ -35,11 +30,9 @@ def dup_1():
 
     my_func_1()
 
-
 def auto_exit():
     app.destroy()
-
-
+    
 #                             ================Start Button=================
 
 def start():
@@ -53,7 +46,6 @@ def start():
         read_bg_img = cv2.imread(my_dir, 1)
         background_img = cv2.resize(read_bg_img, (600, 600))
         h_img, w_img, _ = background_img.shape
-
         # Reading and resizing the background logo...
         read_logo = cv2.imread(my_dir_1, 1)
         logo = cv2.resize(read_logo, (300, 100))
@@ -66,12 +58,9 @@ def start():
         left_x = center_x - int(w_logo / 2)
         bottom_y = top_y + h_logo
         right_x = left_x + w_logo
-
         roi = background_img[top_y:bottom_y, left_x:right_x]
-
         result = cv2.addWeighted(roi, 1, logo, 0.5, 0)
         background_img[top_y:bottom_y, left_x:right_x] = result
-
         current_dt = dt.datetime.now().strftime('%d-%m-%Y %I-%M-%S')
         # this line is used to the img name in the format of date and time.
         file_name = current_dt + '.jpg'
@@ -88,7 +77,6 @@ def start():
         showinfo("Message", 'Image has been uploaded to S3(Simple Storage Service')
         os.remove(file_name)
 
-
 # ========================================Global Variables========================================================
 
 my_dir = a = ''
@@ -98,16 +86,12 @@ my_dir_1 = b = ''
 img_btn = Button(app, height=1, width=11, font='Helvetica 12 bold', text='Select Image', command=dup,
                  borderwidth=5)
 img_btn.place(x=110, y=110)
-
 logo_btn = Button(app, height=1, width=13, font='Helvetica 12 bold', text='Select Watermark', command=dup_1,
                   borderwidth=5)
 logo_btn.place(x=100, y=220)
-
 start_1 = Button(app, text='Continue', width=11, height=1, font='Helvetica 13 bold',
                  borderwidth=6, bg='blue', fg='white', command=start)
 start_1.place(x=110, y=320)
-
-
 # =========================================Extra Functions=======================================================
 def about():
     help_page = Tk()
@@ -140,13 +124,12 @@ def about():
     # Function for Back Button
     def back():
         help_page.destroy()
-
+        
     about_btn = Button(help_page, text='Back', font='Helvetica 11 bold', fg='black',
                        bg='yellow', borderwidth=3, command=back)
     about_btn.place(x=430, y=330)
 
     help_page.mainloop()
-
 
 def exit():
     result = messagebox.askquestion("Exit", "Are You Sure You Want to Exit?")
@@ -154,13 +137,10 @@ def exit():
         app.destroy()
     else:
         return None
-
-
 # =========================================Extra Buttons==========================================================
 
 help = Button(app, text='About', font='Helvetica 11 bold', fg='red', borderwidth=3, command=about)
 help.place(x=470, y=385)
-
 exit = Button(app, text='Exit', font='Helvetica 11 bold', fg='red', borderwidth=3, command=exit)
 exit.place(x=580, y=385)
 
